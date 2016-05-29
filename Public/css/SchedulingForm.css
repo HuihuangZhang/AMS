@@ -15,7 +15,6 @@ body {
 
 ul { list-style-type: none;}
 li { display: inline-span;}
-li { margin: 10px 0;}
 input.labelauty + label { font: 12px "Microsoft Yahei";}
 
 
