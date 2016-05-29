@@ -6,7 +6,7 @@ window.onload = function() {
 }
 
 function addschedule() { //从后台接收个人排班数据并显示
-	var schedule = ["108000900", "110001100", "210001100", "312001300", "415001600", "518001900"]; //test data
+	var schedule = ["108000900", "110001100", "210001100", "312001300", "415001600", "522002100"]; //test data
 	tbody = document.getElementById("tbo");
 	for (var i = 0; i < schedule.length; i++) {
 		tbody.insertRow(i);
@@ -43,46 +43,78 @@ function addschedule() { //从后台接收个人排班数据并显示
 		off_work.href = "javascript:void(0)";
 		off_work.setAttribute("class", "offwork");
 		tbody.rows[i].insertCell(4).appendChild(off_work);
-		var myDate = new Date();
-		var Day = myDate.getDay();
-		var work_Day = parseInt(schedule[i][0]);
-		console.log(Day); 
-		if (work_Day < Day) {
-			on_work.innerHTML = "已上";
-			off_work.innerHTML = "已下";
-		} else {
-			on_work.innerHTML = "上班";
-			off_work.innerHTML = "下班";
-		}
+		on_work.innerHTML = "上班";
+		off_work.innerHTML = "下班";
+		// var myDate = new Date();
+		// var Day = myDate.getDay();
+		// var work_Day = parseInt(schedule[i][0]);
+		// console.log(Day); 
+		// if (work_Day < Day) {
+		// 	on_work.innerHTML = "已上";
+		// 	off_work.innerHTML = "已下";
+		// } else {
+		// 	on_work.innerHTML = "上班";
+		// 	off_work.innerHTML = "下班";
+		// }
 	}
 }
 
 function workregister() { //登记上下班
 	$(".onwork").click(function() {
-		if (this.innerHTML === "上班") {
-			this.innerHTML = "已上";
-			console.log(this)
-			var ontime_str = this.parentNode.previousSibling.innerHTML;
-			var myDate = new Date();
-			var hour = myDate.getHours();
-			var onhour = parseInt(ontime_str[0] + ontime_str[1]);
-			var offhour = parseInt(ontime_str[8] + ontime_str[9]);
-			console.log(hour);
-			console.log(onhour);
-			console.log(offhour);
-			if (hour >= offhour) {
-
-			}
-			console.log(ontime_str);
-		}		
+		// if (this.innerHTML === "上班") {
+		// 	this.innerHTML = "已上";
+		// 	console.log(this)
+		// 	var ontime_str = this.parentNode.previousSibling.innerHTML;
+		// 	var myDate = new Date();
+		// 	var hour = myDate.getHours();
+		// 	var onhour = parseInt(ontime_str[0] + ontime_str[1]);
+		// 	var offhour = parseInt(ontime_str[8] + ontime_str[9]);
+		// 	var min = myDate.getHours();
+		// 	if (hour >= offhour) {
+				
+		// 	}
+		// 	console.log(ontime_str);
+		// }
+		var ontime_str = this.parentNode.previousSibling.innerHTML;
+		var myDate = new Date();
+		var hour = myDate.getHours();
+		var onhour = parseInt(ontime_str[0] + ontime_str[1]);
+		var min = myDate.getMinutes();
+		var bias = 0;
+		if (hour >= onhour) {
+				bias += min;
+				bias += 60 * (hour - onhour);
+				bias -= bias;
+		} else {
+				bias += (60 - min);
+				bias += 60 * (offhour - hour - 1);
+		}
+		//把bias传给后台
+		console.log(bias)	
 	});
 	$(".offwork").click(function() {
-		if (this.innerHTML === "下班") {
-			this.innerHTML = "已下";
-			var myDate = new Date();
-			var hour = myDate.getHours();
-			var offtime_str = this.parentNode.previousSibling.previousSibling.innerHTML;
-			console.log(offtime_str);
+		// if (this.innerHTML === "下班") {
+		// 	this.innerHTML = "已下";
+		// 	var myDate = new Date();
+		// 	var hour = myDate.getHours();
+		// 	var offtime_str = this.parentNode.previousSibling.previousSibling.innerHTML;
+		// 	console.log(offtime_str);
+		// }
+		var myDate = new Date();
+		var hour = myDate.getHours();
+		var offtime_str = this.parentNode.previousSibling.previousSibling.innerHTML;
+		var offhour = parseInt(ontime_str[8] + ontime_str[9]);
+		var min = myDate.getMinutes();
+		var bias = 0;
+		if (hour < offhour) {
+				bias += (60 - min);
+				bias += 60 * (offhour - hour - 1);
+				bias -= bias;
+		} else {
+			bias += min;
+			bias += 60 * (hour - offhour);
 		}
+		//把bias传给后台
+		console.log(bias)
 	});
 }
