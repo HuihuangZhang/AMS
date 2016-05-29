@@ -38,8 +38,9 @@ class UserManageController extends Controller {
     }
 
     public function loginForm() {
-        // dump(I('cookie.userId'));
         if (I('cookie.userId') == "") {
+        // dump(I('cookie.userId'));
+
             $this->redirect('LoginInForm');
         } else {
             $this->redirect('Index/HomePage');

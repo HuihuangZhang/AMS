@@ -26,7 +26,10 @@ function gotofunc() {
 		} else if (this.innerHTML == "助理排班") {
 			window.location = "../Scheduling/SchedulingForm"; //need to change
 		} else if (this.innerHTML == "退出") {
-			window.location = "../UserManage/loginForm";
+			$.ajax({
+				url: '../UserManage/logoff',
+			});
+			window.location = "../UserManage/LoginInForm";
 		} else if (this.innerHTML == "查看排班表") {
 			window.location = "../Scheduling/ShowSchedulingForm";
 		} else {

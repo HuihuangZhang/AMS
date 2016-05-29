@@ -4,6 +4,7 @@ use Think\Controller;
 use Think\Model;
 
 class SchedulingController extends Controller {
+    // 添加排班表
     public function scheduling() {
         $Model = new Model();
         $schedule = I('post.scheduling');
@@ -14,25 +15,22 @@ class SchedulingController extends Controller {
             $etime = substr($value, 13, 4);
             $Model->execute("INSERT INTO ams_schedule (aid, stime, etime, weekday) VALUES ('$aid', '$stime', '$etime', '$weekday')");
         }
-        // if ($result) {
-        //     $response['success'] = 1;
-        // } else {
-        //     $response['success'] = 2;
-        // }
         $response['success'] = 1;
         $this->ajaxReturn($response,'JSON');
     }
-    public function checkScheduling() {
+
+    // 查看時間表，分助理的時間表和管理員查看自己管轄助理的排班表
+    public function getScheduling() {
         $user_id = I('cookie.userId');
 
         $Model = new Model();
         if (I('cookie.type') == 1) {
             $result = $Model->query("SELECT s.aid, s.stime, s.etime, s.weekday FROM ams_schedule s WHERE s.aid = '$user_id'");
-            if ($result) {
+            if (!empty($result)) {
                 $response['success'] = 1;
                 $scheduling = array();
                 foreach ($result as $key => $scheduling_item) {
-                    $scheduling[] = $scheduling_item['aid'].$scheduling_item['weekday'].$scheduling_item['stime'].$scheduling_item['etime'];
+                    $scheduling[] = $scheduling_item['weekday'].$scheduling_item['stime'].$scheduling_item['etime'];
                 }
                 $response['data'] = $scheduling;
             } else {
@@ -41,7 +39,7 @@ class SchedulingController extends Controller {
         } else if (I('cookie.type') == 2) {
             $sql = "SELECT s.aid, s.stime, s.etime, s.weekday FROM ams_manage m INNER JOIN ams_schedule s ON m.aid = s.aid WHERE m.mid = '$user_id'";
             $result = $Model->query($sql);
-            if ($result) {
+            if (!empty($result)) {
                 $response['success'] = 1;
                 $scheduling = array();
                 foreach ($result as $key => $scheduling_item) {
@@ -56,33 +54,13 @@ class SchedulingController extends Controller {
         $this->ajaxReturn($response, 'JSON');
     }
 
-    public function getAllFreeTime() {
-        $Model = new Model();
-        $mid = I('cookie.userId');
-        $sql = "SELECT * FROM ams_free_time f INNER JOIN ams_manage m ON f.aid = m.aid WHERE m.mid = '$mid'";
-        $result = $Model->query($sql);
-        // dump($result);
-        // echo $Model->getLastSql();
-        $free_time = array();
-        if ($result) {
-            foreach ($result as $key => $value) {
-                $free_time[] = $value['aid'].$value['weekday'].$value['stime'].$value['etime'];
-            }
-            $response['success'] = 1;
-            $response['data'] = $free_time;
-        } else {
-            $response['success'] = 0;
-        }
-        // dump($free_time);
-        $this->ajaxReturn($response,'JSON');
-    }
-
+    // 取得上一個結算月的工時
     public function getLastMonthWorkingHour() {
         $Model = new Model();
         $mid = I('cookie.userId');
         $last_counting_time = $Model->query("SELECT MAX(time) AS time FROM ams_counting_time WHERE mid = '$mid'");
         $last_counting_time = $last_counting_time[0]['time'];
-        $sql = "SELECT AMSa.id, AMSa.name, AMSa.email, AMSa.phone, AMSw.lel_time, AMSw.lel_work_hour, AMSw.work_hour FROM AMS_workHour AMSw 
+        $sql = "SELECT AMSa.id, AMSa.name, AMSa.email, AMSa.phone, AMSw.lel_time, AMSw.lel_work_hour, AMSw.work_hour FROM ams_work_hour AMSw 
                 INNER JOIN AMS_assistant AMSa
                 ON AMSw.aid = AMSa.id
                 WHERE AMSw.time = '$last_counting_time'";
@@ -92,6 +70,7 @@ class SchedulingController extends Controller {
         $this->ajaxReturn($result,'JSON');
     }
 
+    // 結算工時
     public function countWorkingHour() {
         $Model = new Model();
         $mid = I('cookie.userId');

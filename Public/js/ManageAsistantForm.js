@@ -23,10 +23,9 @@ function GetAssistantInfo(Assistant) {
 }
 
 function AssistantsTable() {
-    var get_url = url + '/getAllAssistants';
-    var Assistants;
+    console.log("huiuag");
     $.ajax({
-        url: get_url,
+        url: 'getAllAssistants',
         success: function(Assistants) {
             console.log(Assistants);
             for (var i = 0; i < Assistants.length; i++) {
@@ -46,39 +45,50 @@ function AssistantsTable() {
 
 function del_add_Assistant() {
     $("#TableBody").delegate('.delbutton', 'click', function(event) {
-        var delAssistantId = this.value;
-        alert(delAssistantId);
-        var del_url = url + '/delAssistant';
-        $.ajax({
-            url: del_url,
-            type: 'POST',
-            dataType: 'JSON',
-            data: {'aid': delAssistantId},
-            success: function(data) {
-                //删除成功后，删除表项；
-                var id_ = "#" + delAssistantId;
-                $(id_.toString()).remove();
-                console.log(data);
-            }, error: function(err) {
-                console.log(err);
-            }
-        });
+        if (!CheckCookie()) {
+            OverTime();
+        } else {
+            var delAssistantId = this.value;
+            $.ajax({
+                url: 'delAssistant',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {'aid': delAssistantId},
+                success: function(data) {
+                    //删除成功后，删除表项；
+                    var id_ = "#" + delAssistantId;
+                    $(id_.toString()).remove();
+                    console.log(data);
+                }, error: function(err) {
+                    console.log(err);
+                }
+            });
+        }
     });
 
-    $("#addbutton").click(function(){ 
-        var addAssistantId = $("#addid").val();
-        var add_url = url + '/addAssistant';
-        $.ajax({
-            url: add_url,
-            type: 'POST',
-            dataType: 'JSON',
-            data: {'aid': addAssistantId},
-            success: function(data) {
-                console.log(data);
-            }, error: function(err) {
-                console.log(err);
-            }
-        });
+    $("#addbutton").click(function(){
+        if (!CheckCookie()) {
+            console.log("OverTime");
+            OverTime();
+        } else {
+            var addAssistantId = $("#addid").val();
+            $.ajax({
+                url: 'addAssistant',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {'aid': addAssistantId},
+                success: function(res) {
+                    if (res['success'] == 1) {
+                        var a = new AssistantInfo(addAssistantId,"anonymous","0","xxx@xxx.com");
+                        $("#TableBody").append(a.GetAssistantInfo_);
+                        $("#addid").val("");
+                    }
+                    // console.log(res);
+                }, error: function(err) {
+                    console.log(err);
+                }
+            });
+        }
     });
 }
 

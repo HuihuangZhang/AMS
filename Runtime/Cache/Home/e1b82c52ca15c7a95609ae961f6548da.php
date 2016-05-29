@@ -6,9 +6,6 @@
 		<link rel="stylesheet" type="text/css" href="/AM/Public/bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="/AM/Public/css/funcs.css">
 		<link rel="stylesheet" type="text/css" href="/AM/Public/css/WorkHour.css">
-		<script>
-			var url = "/AM/index.php/Home/Scheduling";
-		</script>
 		<script type="text/javascript" src="/AM/Public/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/AM/Public/js/funcs.js"></script>
 		<script type="text/javascript" src="/AM/Public/js/WorkHour.js"></script>

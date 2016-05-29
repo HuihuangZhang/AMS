@@ -46,9 +46,8 @@ function GetAssistantInfo(Assistant) {
 }
 
 function Set() {
-    var get_working_hours_url = url + '/countWorkingHour';
     $.ajax({
-        url: get_working_hours_url,
+        url: 'countWorkingHour',
         dataType: 'json',
         success: function(data) {
             if (data['success'] == 1) {
@@ -84,9 +83,8 @@ function Set() {
 
 
 function getLastMonthWorkingHour() {
-    var get_last_month_working_hours_url = url + '/getLastWorkingHour';
     $.ajax({
-        url: get_last_month_working_hours_url,
+        url: 'getLastWorkingHour',
         dataType: 'json',
         success: function(res) {
             if (res['success'] == 1) {

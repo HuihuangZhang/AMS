@@ -5,9 +5,8 @@ window.onload = function() {
 }
 
 function ShowScheduling() {
-    var get_sche_url = url + '/checkScheduling';
     $.ajax({
-        url: get_sche_url,
+        url: 'getScheduling',
         type: 'POST',
         dataType: 'json',
         success: function(res) {

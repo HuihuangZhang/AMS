@@ -6,10 +6,9 @@ window.onload = function() {
     SaveScheduling();
 }
 
-function SetScheduling() {  
-    var get_all_freetime_url = url + '/getAllFreeTime';
+function SetScheduling() {
     $.ajax({
-        url: get_all_freetime_url,
+        url: '../FreeTimeManage/getAllFreeTime',
         dataType: 'json',
         success: function(res) {
             console.log(res['success']);

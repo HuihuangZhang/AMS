@@ -8,9 +8,6 @@
 		<link rel="stylesheet" type="text/css" href="/AM/Public/css/ManageAsistantForm.css">
 		<script type="text/javascript" src="/AM/Public/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/AM/Public/js/funcs.js"></script>
-		<script>
-			var url = "/AM/index.php/Home/AssistantManage";
-		</script>
 		<script type="text/javascript" src="/AM/Public/js/ManageAsistantForm.js"></script>	
 	</head>
 	<body>
@@ -53,7 +50,7 @@
 						
 					</tbody>
 				</table>
-				<form id="AddManage" class="form-horizontal">
+				<div id="AddManage" class="form-horizontal">
 					<div class="form-group">
 						<label for="addid" class="col-sm-1 control-label">学号</label>
 						<div class="col-sm-10">
@@ -62,10 +59,10 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-2">
-							<button id="addbutton" class="btn btn-primary">添加助理</button>
+							<button id="addbutton" class="btn btn-primary" type="button">添加助理</button>
 						</div>
 					</div>
-				</form>
+				</div>
 		</div>
 		
 

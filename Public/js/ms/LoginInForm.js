@@ -31,10 +31,9 @@ function post_data() {
         }
         // console.log(data[2]);
         // alert(data[0].value + data[1].value + data[2].value);//test
-        var login_url = url + '/login';
 
         $.ajax({
-            url: login_url,
+            url: 'login',
             type: 'POST',
             dataType: 'json',
             data: data,

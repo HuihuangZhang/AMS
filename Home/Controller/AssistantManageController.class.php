@@ -8,23 +8,19 @@ class AssistantManageController extends Controller {
         // if return 1, assistant is added successfully; if 0, the assistant already existd.
         // if 3, assistant is added failed;
         $Model = new Model();
-        $assistantForm = M('assistant');
-        $manageForm = M('manage');
-        $assistant['id'] = I('post.aid');
         $aid = I('post.aid');
         
         // the code below checks if the assistant is existed aready.
         $found = $Model->query("SELECT * FROM ams_assistant WHERE id='$aid' LIMIT 1");
-        if ($found) {
+        if (!empty($found)) {
             $response['success'] = 0;
         } else {
             // Adding assistant in table ams_assistant
-            $assistant['passwd'] = $assistant['id'];
-            $aresult = $Model->query("INSERT INTO ams_assistant (id, passwd) VALUES ('$aid', '$aid')");
+            $aresult = $Model->execute("INSERT INTO ams_assistant (id, passwd) VALUES ('$aid', '$aid')");
 
             // Adding management infomation in table ams_manage (aid, mid)
             $mid = I('cookie.userId');
-            $mresult = $Model->query("INSERT INTO ams_manage (aid, mid) VALUES ('$aid', '$mid')");
+            $mresult = $Model->execute("INSERT INTO ams_manage (aid, mid) VALUES ('$aid', '$mid')");
             if($aresult && $mresult) {
                 $response['success'] = 1;
             } else {
@@ -53,7 +49,7 @@ class AssistantManageController extends Controller {
                                 INNER JOIN ams_manager mr ON m.mid = mr.id
                                 WHERE mr.id = '$mid'"
                                 );
-        if ($result) {
+        if (!empty($result)) {
             $response['success'] = 1;
             $response['data'] = $result;
         } else {
