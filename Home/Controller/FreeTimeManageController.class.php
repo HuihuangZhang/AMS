@@ -3,7 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 use Think\Model;
 
-class freeTimeManageController extends Controller {
+class FreeTimeManageController extends Controller {
     public function addfreeTime() {
         $aid = I('cookie.userId');
         $Model = new Model();

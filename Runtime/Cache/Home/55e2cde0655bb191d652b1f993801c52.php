@@ -6,9 +6,6 @@
 		<link rel="stylesheet" type="text/css" href="/AM/Public/bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="/AM/Public/css/funcs.css">
 		<link rel="stylesheet" type="text/css" href="/AM/Public/css/SchedulingForm.css">
-		<script>
-		var url = "/AM/index.php/Home/Scheduling";
-		</script>
 		<script type="text/javascript" src="/AM/Public/js/jquery.min.js"></script>
 		<link rel="stylesheet" href="/AM/Public/css/jquery-labelauty.css">
 		<script src="/AM/Public/js/jquery-labelauty.js"></script>
