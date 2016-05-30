@@ -23,10 +23,9 @@ function GetAssistantInfo(Assistant) {
 }
 
 function AssistantsTable() {
-    var get_url = url + '/getAllAssistants';
-    var Assistants;
+    console.log("huiuag");
     $.ajax({
-        url: get_url,
+        url: 'getAllAssistants',
         success: function(Assistants) {
             console.log(Assistants);
             for (var i = 0; i < Assistants.length; i++) {
@@ -47,10 +46,8 @@ function AssistantsTable() {
 function del_add_Assistant() {
     $("#TableBody").delegate('.delbutton', 'click', function(event) {
         var delAssistantId = this.value;
-        alert(delAssistantId);
-        var del_url = url + '/delAssistant';
         $.ajax({
-            url: del_url,
+            url: 'delAssistant',
             type: 'POST',
             dataType: 'JSON',
             data: {'aid': delAssistantId},
@@ -65,16 +62,20 @@ function del_add_Assistant() {
         });
     });
 
-    $("#addbutton").click(function(){ 
+    $("#addbutton").click(function(){
         var addAssistantId = $("#addid").val();
-        var add_url = url + '/addAssistant';
         $.ajax({
-            url: add_url,
+            url: 'addAssistant',
             type: 'POST',
             dataType: 'JSON',
             data: {'aid': addAssistantId},
-            success: function(data) {
-                console.log(data);
+            success: function(res) {
+                if (res['success'] == 1) {
+                    var a = new AssistantInfo(addAssistantId,"anonymous","0","xxx@xxx.com");
+                    $("#TableBody").append(a.GetAssistantInfo_);
+                    $("#addid").val("");
+                }
+                // console.log(res);
             }, error: function(err) {
                 console.log(err);
             }

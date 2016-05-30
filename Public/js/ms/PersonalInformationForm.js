@@ -29,9 +29,8 @@ window.onload = function() {
 }
 
 function setInfo() { //显示从后台返回的个人信息
-    var check_passwd_url = url + '/getUserInfo';
     $.ajax({
-        url: check_passwd_url,
+        url: 'getUserInfo',
         type: 'post',
         dataType: 'json',
         // data: data,
@@ -84,9 +83,8 @@ function giveInfo() { //将设置好的个人信息交互给后台
 function assure() {
     $("#confirm").click(function() {
         data = $("#assureform").serializeArray();
-        var check_passwd_url = url + '/checkUser';
         $.ajax({
-            url: check_passwd_url,
+            url: 'checkUser',
             type: 'post',
             dataType: 'json',
             data: data,

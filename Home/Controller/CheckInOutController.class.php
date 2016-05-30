@@ -30,4 +30,12 @@ class CheckInOutController extends Controller {
     public function getCheckInfo() {
 
     }
+    // 上下班登记界面
+    public function checkInOutForm() {
+        if (I('cookie.userId') == "") {
+            $this->redirect('UserManage/loginForm');
+        } else {
+            $this->display('WorkRegister');
+        }
+    }
 }

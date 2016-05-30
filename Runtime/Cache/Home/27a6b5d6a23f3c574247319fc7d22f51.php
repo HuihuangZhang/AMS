@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>登陆</title>
-		<link rel="stylesheet" type="text/css" href="__PUBLIC__/bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ms/LoginInForm.css">
+		<link rel="stylesheet" type="text/css" href="/AM/Public/bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/AM/Public/css/ms/LoginInForm.css">
 		<!-- <link rel="stylesheet" type="text/css" href="funcs.css"> -->
-		<script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
-		<script type="text/javascript" src="__PUBLIC__/js/funcs.js"></script>
-		<script type="text/javascript" src="__PUBLIC__/js/ms/LoginInForm.js"></script>
+		<script type="text/javascript" src="/AM/Public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/AM/Public/js/funcs.js"></script>
+		<script type="text/javascript" src="/AM/Public/js/ms/LoginInForm.js"></script>
 	</head>
 	<body>
 		<div class="container-fluid">

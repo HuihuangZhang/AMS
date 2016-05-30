@@ -16,7 +16,7 @@ class InfoManageController extends Controller {
             $result = $Model->execute("UPDATE ams_assistant SET name='$name', email='$email', phone='$phone' WHERE id='$aid'");
         } else {
             $result = $Model->execute("UPDATE ams_assistant SET name='$name', email='$email', phone='$phone', passwd='$passwd' WHERE id='$aid'");
-            $response['succe'] = 1;
+            $response['success'] = 1;
         }
         if($result) {
             $response['success'] = 1;
@@ -51,5 +51,13 @@ class InfoManageController extends Controller {
             $response['success'] = 0;
         }
         $this->ajaxReturn($response,'JSON');
+    }
+    // 个人信息管理界面
+    public function infoManageForm() {
+        if (I("cookie.userId") == '') {
+            $this->redirect('UserManage/loginForm');
+        } else {
+            $this->display('PersonalInformationForm');
+        }
     }
 }

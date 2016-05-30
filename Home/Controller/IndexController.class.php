@@ -4,9 +4,10 @@ use Think\Controller;
 class IndexController extends Controller {
     public function home() {
         if (I('cookie.userId') == "") {
-            $this->redirect('UserManage/LoginInForm');
+            $this->redirect('UserManage/loginForm');
         } else {
-            $this->redirect('HomePage');
+            $this->display('HomePage');
+            // $this->redirect('Index/HomePage');
         }
     }
 }

@@ -1,94 +1,94 @@
-create table if not exists AMS_assistant (
+﻿create table if not exists ams_assistant (
 id varchar(8) not null primary key,
 name varchar(20) not null default 'anonymous',
 passwd varchar(32) not null,
 email varchar(20) not null default 'xxx@xxx.com',
 phone varchar(11) default 0,
-department varchar(32) default 'SYSU'
+department varchar(64) default 'SYSU'
 )engine=innodb default charset=utf8;
 
-create table if not exists AMS_manager (
+create table if not exists ams_manager (
 id varchar(8) not null primary key,
 name varchar(20) not null default 'anonymous',
 passwd varchar(32) not null,
 email varchar(20) not null default 'xxx@xxx.com',
 phone varchar(11) default 0,
-department varchar(32) default 'SYSU'
+department varchar(64) default 'SYSU'
 )engine=innodb default charset=utf8;
 
-create table if not exists AMS_manage (
+create table if not exists ams_manage (
 aid varchar(8) not null,
 mid varchar(8) not null,
-foreign key(aid) references AMS_assistant(id) on delete cascade on update cascade,
-foreign key(mid) references AMS_manager(id) on delete cascade on update cascade
+foreign key(aid) references ams_assistant(id) on delete cascade on update cascade,
+foreign key(mid) references ams_manager(id) on delete cascade on update cascade
 )engine=innodb default charset=utf8;
 
-create table if not exists AMS_freeTime (
+create table if not exists ams_free_time (
 id int(11) not null primary key auto_increment,
 aid varchar(8) not null,
 stime varchar(4) not null default '0000',
 etime varchar(4) not null default '0000',
 weekday varchar(1) not null default 1,
-foreign key(aid) references AMS_assistant(id) on delete cascade on update cascade
+foreign key(aid) references ams_assistant(id) on delete cascade on update cascade
 )engine=innodb default charset=utf8;
 
-create table if not exists AMS_schedule (
+create table if not exists ams_schedule (
 id int(11) not null primary key auto_increment,
 aid varchar(8) not null,
 stime varchar(4) not null default '0000',
 etime varchar(4) not null default '0000',
 weekday varchar(1) not null default '1',
 unique (stime, etime, weekday),
-foreign key(aid) references AMS_assistant(id) on delete cascade on update cascade
+foreign key(aid) references ams_assistant(id) on delete cascade on update cascade
 )engine=innodb default charset=utf8;
 
-create table if not exists AMS_checkInOutInfo (
+create table if not exists ams_check_in_out_info (
 sid int(11) not null,
 aid varchar(8) not null,
 date varchar(8) not null default '00000000',
 bias tinyInt(4) not null default 0,
 unique (sid, date),
-foreign key(sid) references AMS_schedule(id) on delete cascade on update cascade,
-foreign key(aid) references AMS_assistant(id) on delete cascade on update cascade
+foreign key(sid) references ams_schedule(id) on delete cascade on update cascade,
+foreign key(aid) references ams_assistant(id) on delete cascade on update cascade
 )engine=innodb default charset=utf8;
 
-create table if not exists AMS_countingTime (
+create table if not exists ams_counting_time (
 id int(11) not null primary key auto_increment,
 mid varchar(8) not null,
 time varchar(8) not null default '00000000',
-foreign key(mid) references AMS_manager(id) on delete cascade on update cascade
+foreign key(mid) references ams_manager(id) on delete cascade on update cascade
 )engine=innodb default charset=utf8;
 
-create table if not exists AMS_workHour (
+create table if not exists ams_work_hour (
 aid varchar(8) not null,
 time varchar(8) not null default '00000000',
 lel_time tinyInt(4) not null default 0,
 lel_work_hour FLOAT(4,2) not null default 0.0,
 work_hour FLOAT(4,2) not null default 0.0,
-foreign key(aid) references AMS_assistant(id) on delete cascade on update cascade
+foreign key(aid) references ams_assistant(id) on delete cascade on update cascade
 )engine=innodb default charset=utf8;
 
 
 查询工时SQL：
 SELECT Tempa.id AS aid, Tempa.name, Tempa.email, Tempa.phone, Temps.stime, Temps.etime, Tempc.bias 
 FROM ((SELECT aid, id, stime, etime
-    FROM AMS_schedule 
+    FROM ams_schedule 
     WHERE EXISTS 
         (SELECT * 
-        FROM AMS_manage 
-        WHERE AMS_manage.mid = '$mid'  AND AMS_schedule.aid = AMS_manage.aid)) AS Temps 
+        FROM ams_manage 
+        WHERE ams_manage.mid = '$mid'  AND ams_schedule.aid = ams_manage.aid)) AS Temps 
 INNER JOIN (SELECT sid, bias 
-    FROM AMS_checkInOutInfo 
+    FROM ams_check_in_out_info 
     WHERE date > '$last_counting_time' AND EXISTS 
         (SELECT * 
-        FROM AMS_manage 
-        WHERE AMS_manage.mid = '$mid' AND AMS_checkInOutInfo.aid = AMS_manage.aid)) AS Tempc ON Temps.id = Tempc.sid
-INNER JOIN AMS_assistant AS Tempa ON Temps.aid = Tempa.id
+        FROM ams_manage 
+        WHERE ams_manage.mid = '$mid' AND ams_check_in_out_info.aid = ams_manage.aid)) AS Tempc ON Temps.id = Tempc.sid
+INNER JOIN ams_assistant AS Tempa ON Temps.aid = Tempa.id
 )
 
 列出管理员管辖的所有助理的信息SQL：
 SELECT a.id, a.name, a.phone, a.email
-FROM AMS_assistant a
-INNER JOIN AMS_manage m ON a.id = m.aid
-INNER JOIN AMS_manager mr ON m.mid = mr.id
+FROM ams_assistant a
+INNER JOIN ams_manage m ON a.id = m.aid
+INNER JOIN ams_manager mr ON m.mid = mr.id
 WHERE mr.id = 11

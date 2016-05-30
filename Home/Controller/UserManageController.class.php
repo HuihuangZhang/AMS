@@ -37,10 +37,11 @@ class UserManageController extends Controller {
         }
     }
 
+    // 登陆界面
     public function loginForm() {
-        // dump(I('cookie.userId'));
         if (I('cookie.userId') == "") {
-            $this->redirect('LoginInForm');
+            $this->display('LoginInForm');
+            // $this->redirect('UserManage/LoginInForm');
         } else {
             $this->redirect('Index/HomePage');
         }

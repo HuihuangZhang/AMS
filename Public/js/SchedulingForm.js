@@ -6,10 +6,9 @@ window.onload = function() {
     SaveScheduling();
 }
 
-function SetScheduling() {  
-    var get_all_freetime_url = url + '/getAllFreeTime';
+function SetScheduling() {
     $.ajax({
-        url: get_all_freetime_url,
+        url: '../FreeTimeManage/getAllFreeTime',
         dataType: 'json',
         success: function(res) {
             console.log(res['success']);
@@ -30,31 +29,25 @@ function SetScheduling() {
 
 function SaveScheduling() {
     $("#saveScheduling").click(function() {
-        
-        if (!CheckCookie()) {
-            OverTime();
-        } else {
-
-            var Scheduling = new Array();
-            var obj_checkbox = document.getElementsByName("checkbox");
-            for (var i = 0; i < obj_checkbox.length; i++) {
-                if (obj_checkbox[i].checked)
-                    Scheduling.push(obj_checkbox[i].id);
-            }
-            var save_sche_url = url + '/scheduling'
-            $.ajax({
-                url: save_sche_url,
-                type: 'POST',
-                dataType: 'JSON',
-                data: {"scheduling": Scheduling},
-                success: function(res) {
-                    console.log(res);
-                    // 添加时间表后的行为
-                }, error: function(err) {
-                    console.log(err);
-                }
-            });
+        var Scheduling = new Array();
+        var obj_checkbox = document.getElementsByName("checkbox");
+        for (var i = 0; i < obj_checkbox.length; i++) {
+            if (obj_checkbox[i].checked)
+                Scheduling.push(obj_checkbox[i].id);
         }
+        var save_sche_url = url + '/scheduling'
+        $.ajax({
+            url: save_sche_url,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {"scheduling": Scheduling},
+            success: function(res) {
+                console.log(res);
+                // 添加时间表后的行为
+            }, error: function(err) {
+                console.log(err);
+            }
+        });
     });
 }
 
