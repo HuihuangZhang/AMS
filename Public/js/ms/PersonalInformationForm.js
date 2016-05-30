@@ -6,6 +6,14 @@ window.onload = function() {
     document.getElementById("err").style.display = "none";
     document.getElementById("err0").style.display = "none";
     document.getElementById("savepersonalinfo").innerHTML = "修改";
+    var input_array = $(":input");
+    for (var i = 2; i <= 4; i++) {
+        input_array[i].setAttribute("readOnly", "true");
+        input_array[i].style.backgroundColor = "transparent";
+        input_array[i].style.border = "none";
+        input_array[i].style.paddingBottom = "7px";
+    }
+    input_array.removeClass("form-control");
     $("#password").blur(function() {
         if ($("#password").val().length <= 8 && $("#password").val().length > 0) {
             document.getElementById("err0").style.display = "";
@@ -66,7 +74,12 @@ function giveInfo() { //将设置好的个人信息交互给后台
                 data: info,
                 success: function(res) {
                     if (res['success'] == 1) {
-                         window.location.reload();
+                        window.location.reload();
+                        window.location.reload();
+                        document.getElementById("err").style.display = "none";
+                        document.getElementById("pas").style.display = "none";
+                        document.getElementById("au_pas").style.display = "none";
+                        document.getElementById("savepersonalinfo").innerHTML = "修改";
                     } else {
                         openDangerAlter('更新失败');
                     }
@@ -96,6 +109,15 @@ function assure() {
                     document.getElementById("au_pas").style.display = "";
                     document.getElementById("PersonalInformationForm").style.display = "";
                     document.getElementById("assure").style.display = "none";
+                    var input_array = $(":input");
+                    for (var i = 2; i <= 4; i++) {
+                        input_array[i].removeAttribute("readOnly");
+                        input_array[i].removeAttribute("style");
+                    }
+                    input_array.addClass("form-control");
+                    $("#confirm").children().removeClass("form-control")
+                    $("#asspassword").removeClass("form-control");
+                    $("#savepersonalinfo").removeClass("form-control");
                     closeDangerAlter();
                 } else {
                     openDangerAlter('密码错误');
@@ -104,7 +126,5 @@ function assure() {
                 console.log(err);
             }
         });
-
-        
     });
 }
