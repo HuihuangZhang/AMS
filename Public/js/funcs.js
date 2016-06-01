@@ -9,31 +9,28 @@ function add_banner() {
 
 function gotofunc() {
 	$("a").click(function() {
-		if (!CheckCookie()) {
-			OverTime();
-		} else {
-
 		if (this.innerHTML == "个人信息管理") {
-			window.location = "../InfoManage/PersonalInformationForm";
+			window.location = "../InfoManage/infoManageForm";
 		} else if (this.innerHTML == "登记空闲时间") {
-			window.location = "../FreeTimeManage/FreeTimeForm";
+			window.location = "../FreeTimeManage/freeTimeManageForm";
 		} else if(this.innerHTML == "上下班登记") {
-			window.location = "../CheckInOut/WorkRegister";
+			window.location = "../CheckInOut/checkInOutForm";
 		}	else if (this.innerHTML == "管理助理") {
-			window.location = "../AssistantManage/ManageAsistantForm"; //need to change
+			window.location = "../AssistantManage/assistantManageForm"; //need to change
 		} else if (this.innerHTML == "结算工时") {
-			window.location = "../Scheduling/WorkHour"; //need to change
+			window.location = "../Scheduling/workingHourForm"; //need to change
 		} else if (this.innerHTML == "助理排班") {
-			window.location = "../Scheduling/SchedulingForm"; //need to change
+			window.location = "../Scheduling/schedulingForm"; //need to change
 		} else if (this.innerHTML == "退出") {
-			window.location = "../UserManage/loginForm";
+			$.ajax({
+				url: '../UserManage/logoff',
+			});
+			window.location = "../UserManage/LoginInForm";
 		} else if (this.innerHTML == "查看排班表") {
-			window.location = "../Scheduling/ShowSchedulingForm";
+			window.location = "../Scheduling/getSchedulingForm";
 		} else {
-			window.location = "../Index/HomePage";
+			window.location = "../Index/Home";
 		}
-
-	}
 	});
 }
 
@@ -41,33 +38,33 @@ function gotofunc() {
 // 	document.getElementById("dj").style.display = "";
 // }
 
-function CheckCookie() {
-	var strCookie = document.cookie;
-	var arrCookie = strCookie.split(";");
-	var type, userId;
+// function CheckCookie() {
+// 	var strCookie = document.cookie;
+// 	var arrCookie = strCookie.split(";");
+// 	var type, userId;
 
-	for (var i = 0; i < arrCookie.length; i++) {
-		var arr = arrCookie[i].split("=");
-		if ($.trim(arr[0]) == "userId") {
-			userId = arr[1];
-		}
-		if ($.trim(arr[0]) == "type") {
-			type = arr[1];
-		}
-	}
+// 	for (var i = 0; i < arrCookie.length; i++) {
+// 		var arr = arrCookie[i].split("=");
+// 		if ($.trim(arr[0]) == "userId") {
+// 			userId = arr[1];
+// 		}
+// 		if ($.trim(arr[0]) == "type") {
+// 			type = arr[1];
+// 		}
+// 	}
 
-	if (typeof(userId) != 'undefined' && typeof(type) != 'undefined') {
-        console.log('userId');
-        return true;
-    }
-    return false;
-}
+// 	if (typeof(userId) != 'undefined' && typeof(type) != 'undefined') {
+//         console.log('userId');
+//         return true;
+//     }
+//     return false;
+// }
 
-function OverTime() {
-	if (confirm("操作超时！是否重新登陆？")) {
-		window.location = "../UserManage/loginForm";
-	}
-}
+// function OverTime() {
+// 	if (confirm("操作超时！是否重新登陆？")) {
+// 		window.location = "../UserManage/loginForm";
+// 	}
+// }
 
 // function GetIdInCookie() {
 // 	var strCookie = document.cookie;
@@ -105,7 +102,7 @@ function addDangerAlert() {
 		"margin-top": '2em',
 		"text-align": 'center'
 	});
-	console.log("hui");
+	console.log("danger-alert");
 }
 function openDangerAlter(text) {
 	$("#danger-word").text(text);

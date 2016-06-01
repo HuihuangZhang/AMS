@@ -20,9 +20,8 @@ window.onload = function() {
 
 function setfreetime() { //显示休闲时间以及修改空闲时间
     //显示空闲时间
-    var get_free_time_url = url + '/getFreeTime';
     $.ajax({
-        url: get_free_time_url,
+        url: 'getFreeTime',
         dataType: 'JSON',
         success: function(res) {
             // console.log(res);
@@ -93,10 +92,9 @@ function givefreetime() { //将设定好的空闲时间交互给后台
                 }
             }
         }
-        var save_free_time_url = url + '/addFreeTime';
-        console.log(freetime_array)
+        // console.log(freetime_array);
         $.ajax({
-            url: save_free_time_url,
+            url: 'addFreeTime',
             type: 'POST',
             dataType: 'json',
             data: {'free_time': freetime_array},

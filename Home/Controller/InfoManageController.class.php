@@ -16,7 +16,7 @@ class InfoManageController extends Controller {
             $result = $Model->execute("UPDATE ams_assistant SET name='$name', email='$email', phone='$phone' WHERE id='$aid'");
         } else {
             $result = $Model->execute("UPDATE ams_assistant SET name='$name', email='$email', phone='$phone', passwd='$passwd' WHERE id='$aid'");
-            $response['succe'] = 1;
+            $response['success'] = 1;
         }
         if($result) {
             $response['success'] = 1;
@@ -29,7 +29,10 @@ class InfoManageController extends Controller {
     public function getUserInfo() {
         $Model = new Model();
         $aid = I('cookie.userId');
-        $res_data = $Model->query("SELECT name, phone, email, department FROM ams_assistant WHERE id = '$aid' LIMIT 1");
+        $res_data = $Model->query("SELECT a.name, a.phone, a.email, d.name AS department
+                                FROM ams_assistant a
+                                INNER JOIN ams_department d ON a.did = d.id
+                                WHERE a.id = '$aid' LIMIT 1");
         if($res_data) {
             $response['success'] = 1;
             $response['data'] = $res_data;
@@ -44,12 +47,19 @@ class InfoManageController extends Controller {
         $passwd = I('post.passwd');
         $aid = I('cookie.userId');
         $result = $Model->query("SELECT * FROM ams_assistant WHERE id = '$aid' AND passwd = '$passwd' LIMIT 1");
-        if ($result) {
+        if (!empty($result)) {
             $response['success'] = 1;
-            $res_data = $Model->query("SELECT name, phone, email, department FROM ams_assistant WHERE id = '$aid' LIMIT 1");
         } else {
             $response['success'] = 0;
         }
         $this->ajaxReturn($response,'JSON');
+    }
+    // 个人信息管理界面
+    public function infoManageForm() {
+        if (I("cookie.userId") == '') {
+            $this->redirect('UserManage/loginForm');
+        } else {
+            $this->display('PersonalInformationForm');
+        }
     }
 }

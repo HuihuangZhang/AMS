@@ -5,12 +5,15 @@ window.onload = function() {
     del_add_Assistant();
 }
 
-function AssistantInfo(aid, sname, phone, email) {
+function AssistantInfo(did, dname, aid, sname, phone, email) {
     this.head = "<tr id='"+aid+"'><form><th><button class='btn delbutton' value='"+aid+"'>注销</button></th><td>";
     this.text1 = "</td></form><td>";
     this.text2 = "</td><td>";
     this.text3 = "</td><td>";
-    this.text4 = "</td></tr>";
+    this.text4 = "</td><td>";
+    this.text5 = "</td></tr>";
+    this.did = did;
+    this.dname = dname;
     this.aid = aid;
     this.sname = sname;
     this.phone = phone;
@@ -19,23 +22,33 @@ function AssistantInfo(aid, sname, phone, email) {
 }
 
 function GetAssistantInfo(Assistant) {
-    return (Assistant.head+Assistant.aid+Assistant.text1+Assistant.sname+Assistant.text2+Assistant.phone+Assistant.text3+Assistant.email+Assistant.text4);
+    return (Assistant.head+Assistant.aid+Assistant.text1+Assistant.sname+Assistant.text2+Assistant.dname+Assistant.text3
+        +Assistant.phone+Assistant.text4+Assistant.email+Assistant.text5);
 }
 
+
 function AssistantsTable() {
-    var get_url = url + '/getAllAssistants';
-    var Assistants;
+    console.log("huiuag");
     $.ajax({
-        url: get_url,
+        url: 'getAllAssistants',
         success: function(Assistants) {
             console.log(Assistants);
-            for (var i = 0; i < Assistants.length; i++) {
-                var a = new AssistantInfo(Assistants[i]["id"],
-                                        Assistants[i]["name"],
-                                        Assistants[i]["phone"],
-                                        Assistants[i]["email"]
-                                        );
-                $("tbody").append(a.GetAssistantInfo_);
+            var dnames = Assistants['did_depart'];
+                console.log(dnames);
+
+            for (var x in dnames) {
+                console.log(x);
+
+                console.log(dnames[x]);
+                    $("#ManageTable").append("<tbody id='did"+x+"' name='"+dnames[x]+"'></tbody>");
+                    $("#addDid").append("<option value='"+x+"'>"+dnames[x]+"</option>");
+            }
+            var Assistant = Assistants['all_info'];
+            // console.log(Assistant['all_info']);
+            for (var i = 0; i < Assistant.length; i++) {
+                var a = new AssistantInfo(Assistant[i]["did"], dnames[Assistant[i]["did"]], Assistant[i]["id"],Assistant[i]["name"],Assistant[i]["phone"],Assistant[i]["email"]);
+                var tbodyid = "#did" + a.did;
+                $(tbodyid.toString()).append(a.GetAssistantInfo_);
             }
         }, error: function(err) {
             console.log(err);
@@ -45,12 +58,10 @@ function AssistantsTable() {
 }
 
 function del_add_Assistant() {
-    $("#TableBody").delegate('.delbutton', 'click', function(event) {
+    $("table").delegate('.delbutton', 'click', function() {
         var delAssistantId = this.value;
-        alert(delAssistantId);
-        var del_url = url + '/delAssistant';
         $.ajax({
-            url: del_url,
+            url: 'delAssistant',
             type: 'POST',
             dataType: 'JSON',
             data: {'aid': delAssistantId},
@@ -65,16 +76,24 @@ function del_add_Assistant() {
         });
     });
 
-    $("#addbutton").click(function(){ 
+    $("#addbutton").click(function(){
         var addAssistantId = $("#addid").val();
-        var add_url = url + '/addAssistant';
+        var addAssistantDid = $("#addDid").val();
+        var tbodyid = "#did" + addAssistantDid;
+        var addAssistantDname = $("select option:selected").text();
         $.ajax({
-            url: add_url,
+            url: 'addAssistant',
             type: 'POST',
             dataType: 'JSON',
             data: {'aid': addAssistantId},
-            success: function(data) {
-                console.log(data);
+            success: function(res) {
+                if (res['success'] == 1) {
+                    var a = new AssistantInfo(addAssistantDid, addAssistantDname, addAssistantId,"anonymous", "0","xxx@xxx.com");
+                    $(tbodyid.toString()).append(a.GetAssistantInfo_);
+                    $("#addid").val("");
+                    $("#addDid").val("");
+                }
+                // console.log(res);
             }, error: function(err) {
                 console.log(err);
             }

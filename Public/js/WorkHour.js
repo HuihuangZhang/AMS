@@ -6,20 +6,14 @@ window.onload = function() {
 
 function GetthisMonthWorkingHour() {
     $("#Settlement").click(function() {
-        
-        if (!CheckCookie()) {
-            OverTime();
+        var d = new Date();
+        var date = d.getDate();
+
+        if (date < 27) {
+            alert("未到本月27日，不可结算工时！");
         } else {
-
-            var d = new Date();
-            var date = d.getDate();
-
-            if (date < 27) {
-                alert("未到本月27日，不可结算工时！");
-            } else {
-                $("tbody").empty();
-                Set();
-            }
+            $("tbody").empty();
+            Set();
         }
     });
 }
@@ -46,9 +40,8 @@ function GetAssistantInfo(Assistant) {
 }
 
 function Set() {
-    var get_working_hours_url = url + '/countWorkingHour';
     $.ajax({
-        url: get_working_hours_url,
+        url: 'countWorkingHour',
         dataType: 'json',
         success: function(data) {
             if (data['success'] == 1) {
@@ -84,9 +77,8 @@ function Set() {
 
 
 function getLastMonthWorkingHour() {
-    var get_last_month_working_hours_url = url + '/getLastWorkingHour';
     $.ajax({
-        url: get_last_month_working_hours_url,
+        url: 'getLastWorkingHour',
         dataType: 'json',
         success: function(res) {
             if (res['success'] == 1) {

@@ -5,15 +5,14 @@ window.onload = function() {
 }
 
 function ShowScheduling() {
-    var get_sche_url = url + '/checkScheduling';
     $.ajax({
-        url: get_sche_url,
+        url: 'getScheduling',
         type: 'POST',
         dataType: 'json',
         success: function(res) {
             if (res['success'] == 1) {
                 var Scheduling = res['data'];
-                console.log(Scheduling);
+                // console.log(Scheduling);
                 for (var i = 0; i < Scheduling.length; i++) {
                     var sid = Scheduling[i].substring(0,8);
                     var time = Scheduling[i].substring(8,17);

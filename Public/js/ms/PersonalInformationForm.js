@@ -6,6 +6,14 @@ window.onload = function() {
     document.getElementById("err").style.display = "none";
     document.getElementById("err0").style.display = "none";
     document.getElementById("savepersonalinfo").innerHTML = "修改";
+    var input_array = $(":input");
+    for (var i = 2; i <= 5; i++) {
+        input_array[i].setAttribute("readOnly", "true");
+        input_array[i].style.backgroundColor = "transparent";
+        input_array[i].style.border = "none";
+        input_array[i].style.paddingBottom = "7px";
+    }
+    input_array.removeClass("form-control");
     $("#password").blur(function() {
         if ($("#password").val().length <= 8 && $("#password").val().length > 0) {
             document.getElementById("err0").style.display = "";
@@ -29,15 +37,15 @@ window.onload = function() {
 }
 
 function setInfo() { //显示从后台返回的个人信息
-    var check_passwd_url = url + '/getUserInfo';
     $.ajax({
-        url: check_passwd_url,
+        url: 'getUserInfo',
         type: 'post',
         dataType: 'json',
         // data: data,
         success: function(res) {
-            console.log(res);
+            // console.log(res);
             if (res['success'] == 1) {
+                $("#department").val(res['data'][0]['department']);
                 $("#name").val(res['data'][0]['name']);
                 $("#phone").val(res['data'][0]['phone']);
                 $("#email").val(res['data'][0]['email']);
@@ -67,7 +75,12 @@ function giveInfo() { //将设置好的个人信息交互给后台
                 data: info,
                 success: function(res) {
                     if (res['success'] == 1) {
-                         window.location.reload();
+                        window.location.reload();
+                        window.location.reload();
+                        document.getElementById("err").style.display = "none";
+                        document.getElementById("pas").style.display = "none";
+                        document.getElementById("au_pas").style.display = "none";
+                        document.getElementById("savepersonalinfo").innerHTML = "修改";
                     } else {
                         openDangerAlter('更新失败');
                     }
@@ -84,20 +97,29 @@ function giveInfo() { //将设置好的个人信息交互给后台
 function assure() {
     $("#confirm").click(function() {
         data = $("#assureform").serializeArray();
-        var check_passwd_url = url + '/checkUser';
         $.ajax({
-            url: check_passwd_url,
+            url: 'checkUser',
             type: 'post',
             dataType: 'json',
             data: data,
             success: function(res) {
-                console.log(res);
+                // console.log(res);
                 if (res['success'] == 1) {
                     document.getElementById("savepersonalinfo").innerHTML = "保存";
                     document.getElementById("pas").style.display = "";
                     document.getElementById("au_pas").style.display = "";
                     document.getElementById("PersonalInformationForm").style.display = "";
                     document.getElementById("assure").style.display = "none";
+                    var input_array = $(":input");
+                    for (var i = 3; i <= 5; i++) {
+                        input_array[i].removeAttribute("readOnly");
+                        input_array[i].removeAttribute("style");
+                    }
+                    input_array.addClass("form-control");
+                    $("#confirm").children().removeClass("form-control")
+                    $("#department").removeClass("form-control");
+                    $("#asspassword").removeClass("form-control");
+                    $("#savepersonalinfo").removeClass("form-control");
                     closeDangerAlter();
                 } else {
                     openDangerAlter('密码错误');
@@ -106,7 +128,5 @@ function assure() {
                 console.log(err);
             }
         });
-
-        
     });
 }
