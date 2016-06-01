@@ -46,7 +46,6 @@ class CheckInOutController extends Controller {
 
     public function getScheduling() {
         $user_id = I('cookie.userId');
-
         $Model = new Model();
         $result = $Model->query("SELECT s.id AS sid, s.stime, s.etime, s.weekday FROM ams_schedule s WHERE s.aid = '$user_id'");
         if (!empty($result)) {

@@ -30,7 +30,7 @@ class SchedulingController extends Controller {
                 $response['success'] = 1;
                 $scheduling = array();
                 foreach ($result as $key => $scheduling_item) {
-                    $scheduling[] = $scheduling_item['aid'].$scheduling_item['weekday'].$scheduling_item['stime'].$scheduling_item['etime'];
+                    $scheduling[] = $scheduling_item['weekday'].$scheduling_item['stime'].$scheduling_item['etime'];
                 }
                 $response['data'] = $scheduling;
             } else {
