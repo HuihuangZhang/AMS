@@ -1,4 +1,4 @@
-####中山大学勤工俭学助理管理系统
+# 中山大学勤工俭学助理管理系统
 ###系统部署：
 - 系统前端使用html/css/javascript
 - 后台采用php和thinkphp框架
@@ -13,3 +13,4 @@
 
 ####Window系统中：
 安装WAMP环境，将所有文件放进`$INSTALL_PLACE/www/`中
+打开mysqladmin
