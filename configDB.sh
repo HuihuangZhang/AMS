@@ -18,7 +18,7 @@ echo "Your user name: " $USER
 echo "The name of database: "$DATABASE
 ################################
 # Connecting mysql
-mysql -u $USER $DATABASE << EOF 2>/home/steve/dbtest/log
+mysql -u $USER $DATABASE << EOF 2>/dev/null
 create database if not exists $DATABASE;
 
 create table if not exists ams_department (

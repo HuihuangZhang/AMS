@@ -66,16 +66,13 @@ function giveInfo() { //将设置好的个人信息交互给后台
             document.getElementById("PersonalInformationForm").style.display = "none";
         } else if (this.innerHTML === "保存") {
             var info = $("#infoform").serializeArray();
-            var update_info_url = url + '/updateUserInfo';
-            console.log(update_info_url);
             $.ajax({
-                url: update_info_url,
+                url: 'updateUserInfo',
                 type: 'post',
                 dataType: 'JSON',
                 data: info,
                 success: function(res) {
                     if (res['success'] == 1) {
-                        window.location.reload();
                         window.location.reload();
                         document.getElementById("err").style.display = "none";
                         document.getElementById("pas").style.display = "none";

@@ -28,20 +28,14 @@ function GetAssistantInfo(Assistant) {
 
 
 function AssistantsTable() {
-    console.log("huiuag");
     $.ajax({
         url: 'getAllAssistants',
         success: function(Assistants) {
             console.log(Assistants);
             var dnames = Assistants['did_depart'];
-                console.log(dnames);
-
             for (var x in dnames) {
-                console.log(x);
-
-                console.log(dnames[x]);
-                    $("#ManageTable").append("<tbody id='did"+x+"' name='"+dnames[x]+"'></tbody>");
-                    $("#addDid").append("<option value='"+x+"'>"+dnames[x]+"</option>");
+                $("#ManageTable").append("<tbody id='did"+x+"' name='"+dnames[x]+"'></tbody>");
+                $("#addDid").append("<option value='"+x+"'>"+dnames[x]+"</option>");
             }
             var Assistant = Assistants['all_info'];
             // console.log(Assistant['all_info']);
@@ -69,9 +63,9 @@ function del_add_Assistant() {
                 //删除成功后，删除表项；
                 var id_ = "#" + delAssistantId;
                 $(id_.toString()).remove();
-                console.log(data);
+                // console.log(data);
             }, error: function(err) {
-                console.log(err);
+                alert("出现错误：" + err);
             }
         });
     });
@@ -81,6 +75,7 @@ function del_add_Assistant() {
         var addAssistantDid = $("#addDid").val();
         var tbodyid = "#did" + addAssistantDid;
         var addAssistantDname = $("select option:selected").text();
+        console.log(addAssistantId);
         $.ajax({
             url: 'addAssistant',
             type: 'POST',
@@ -90,6 +85,11 @@ function del_add_Assistant() {
                 if (res['success'] == 1) {
                     var a = new AssistantInfo(addAssistantDid, addAssistantDname, addAssistantId,"anonymous", "0","xxx@xxx.com");
                     $(tbodyid.toString()).append(a.GetAssistantInfo_);
+                    $("#addid").val("");
+                    $("#addDid").val("");
+                } else {
+                    // 添加失败
+                    alert("该助理已存在！");
                     $("#addid").val("");
                     $("#addDid").val("");
                 }
