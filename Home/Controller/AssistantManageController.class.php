@@ -15,14 +15,14 @@ class AssistantManageController extends Controller {
         if (!empty($found)) {
             $response['success'] = 0;
         } else {
-            // Adding assistant in table ams_assistant
-            $aresult = $Model->execute("INSERT INTO ams_assistant (id, passwd) VALUES ('$aid', '$aid')");
 
             // Adding management infomation in table ams_manage (aid, mid)
             $mid = I('cookie.userId');
-            $did = I('post.departmentId');
+            $did = I('post.did');
+            // Adding assistant in table ams_assistant
+            $aresult = $Model->execute("INSERT INTO ams_assistant (id, passwd, did) VALUES ('$aid', '$aid', '$did')");
             $mresult = $Model->execute("INSERT INTO ams_manage (aid, mid, did) VALUES ('$aid', '$mid', '$did')");
-            if($aresult && $mresult) {
+            if(!empty($aresult) && !empty($mresult)) {
                 $response['success'] = 1;
             } else {
                 $response['success'] = 3;

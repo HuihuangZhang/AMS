@@ -64,6 +64,7 @@ function del_add_Assistant() {
                 var id_ = "#" + delAssistantId;
                 $(id_.toString()).remove();
                 // console.log(data);
+                alert("助理删除成功！");
             }, error: function(err) {
                 alert("出现错误：" + err);
             }
@@ -75,18 +76,19 @@ function del_add_Assistant() {
         var addAssistantDid = $("#addDid").val();
         var tbodyid = "#did" + addAssistantDid;
         var addAssistantDname = $("select option:selected").text();
-        console.log(addAssistantId);
+        console.log(addAssistantDid);
         $.ajax({
             url: 'addAssistant',
             type: 'POST',
             dataType: 'JSON',
-            data: {'aid': addAssistantId},
+            data: {'aid': addAssistantId, 'did':addAssistantDid},
             success: function(res) {
                 if (res['success'] == 1) {
                     var a = new AssistantInfo(addAssistantDid, addAssistantDname, addAssistantId,"anonymous", "0","xxx@xxx.com");
                     $(tbodyid.toString()).append(a.GetAssistantInfo_);
                     $("#addid").val("");
                     $("#addDid").val("");
+                    alert("助理添加成功！");
                 } else {
                     // 添加失败
                     alert("该助理已存在！");
