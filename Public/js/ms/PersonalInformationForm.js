@@ -118,11 +118,11 @@ function assure() {
                     }
                     input_array.addClass("form-control");
                     document.getElementById("account").setAttribute("readOnly", "true");
-			        document.getElementById("account").style.backgroundColor = "transparent";
-			        document.getElementById("account").style.border = "none";
-			        document.getElementById("account").style.paddingBottom = "7px"
-			        $("#department").removeClass("form-control");
-			        $("#account").removeClass("form-control");
+		    document.getElementById("account").style.backgroundColor = "transparent";
+	            document.getElementById("account").style.border = "none";
+	            document.getElementById("account").style.paddingBottom = "7px"
+	            $("#department").removeClass("form-control");
+	            $("#account").removeClass("form-control");
                     $("#confirm").children().removeClass("form-control")
                     $("#asspassword").removeClass("form-control");
                     $("#savepersonalinfo").removeClass("form-control");
