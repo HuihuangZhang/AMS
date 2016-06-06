@@ -4,7 +4,7 @@ use Think\Controller;
 use Think\Model;
 
 class FreeTimeManageController extends Controller {
-    public function addfreeTime() {
+    public function addFreeTime() {
         $aid = I('cookie.userId');
         $Model = new Model();
         $free_time_array = I('post.free_time');
@@ -40,7 +40,8 @@ class FreeTimeManageController extends Controller {
     public function getAllFreeTime() {
         $Model = new Model();
         $mid = I('cookie.userId');
-        $sql = "SELECT * FROM ams_free_time f INNER JOIN ams_manage m ON f.aid = m.aid WHERE m.mid = '$mid'";
+        $did = I('post.did');
+        $sql = "SELECT * FROM ams_free_time f INNER JOIN ams_manage m ON f.aid = m.aid WHERE m.mid = '$mid' AND m.did = '$did'";
         $result = $Model->query($sql);
         // dump($result);
         // echo $Model->getLastSql();

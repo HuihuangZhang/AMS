@@ -25,7 +25,7 @@ class InfoManageController extends Controller {
                 $result = $Model->execute("UPDATE ams_manager SET name='$name', email='$email', phone='$phone', passwd='$passwd' WHERE id='$userId'");
             }
         }
-        if(!empty($result)) {
+        if($result !== false) {
             $response['success'] = 1;
         } else {
             $response['success'] = 0;

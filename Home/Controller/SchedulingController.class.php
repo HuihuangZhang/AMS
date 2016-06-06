@@ -22,7 +22,8 @@ class SchedulingController extends Controller {
     // 查看時間表，分助理的時間表和管理員查看自己管轄助理的排班表
     public function getScheduling() {
         $user_id = I('cookie.userId');
-
+        $did = I("post.did");
+        
         $Model = new Model();
         if (I('cookie.type') == 1) {
             $result = $Model->query("SELECT s.aid, s.stime, s.etime, s.weekday FROM ams_schedule s WHERE s.aid = '$user_id'");

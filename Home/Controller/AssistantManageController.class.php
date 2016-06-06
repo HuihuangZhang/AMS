@@ -54,13 +54,13 @@ class AssistantManageController extends Controller {
                             FROM ams_manage m
                             INNER JOIN ams_department p ON p.id = m.did
                             WHERE mid = '$mid'");
-        $did_depart = array();
-        // dump($temp);
-        foreach ($temp as $key => $value) {
-           $did_depart[$value['did']] = $value['name'];
-        }
-        // dump($did_depart);
-        if ((!empty($all_info)) && (!empty($did_depart))) {
+        
+        if ((!empty($all_info)) && (!empty($temp))) {
+            $did_depart = array();
+            // dump($temp);
+            foreach ($temp as $key => $value) {
+               $did_depart[$value['did']] = $value['name'];
+            }
             $response['success'] = 1;
             $response['all_info'] = $all_info;
             $response['did_depart'] = $did_depart;
