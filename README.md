@@ -14,7 +14,7 @@
 - php: 5.6.18
 
 将AMS放入`/var/www/html/`(Apache项目的默认文件)中，在terminal中执行：
-```
+```shell
 # mv AMS /var/www/html/
 # cd /var/www/html
 # vim Common/Conf/config.php  //配置项目数据库
