@@ -7,7 +7,7 @@ window.onload = function() {
     document.getElementById("err0").style.display = "none";
     document.getElementById("savepersonalinfo").innerHTML = "修改";
     var input_array = $(":input");
-    for (var i = 2; i <= 5; i++) {
+    for (var i = 2; i <= 6; i++) {
         input_array[i].setAttribute("readOnly", "true");
         input_array[i].style.backgroundColor = "transparent";
         input_array[i].style.border = "none";
@@ -43,8 +43,9 @@ function setInfo() { //显示从后台返回的个人信息
         dataType: 'json',
         // data: data,
         success: function(res) {
-            // console.log(res);
+            console.log(res);
             if (res['success'] == 1) {
+                $("#account").val(res['data']['account']);
                 $("#department").val(res['data'][0]['department']);
                 $("#name").val(res['data'][0]['name']);
                 $("#phone").val(res['data'][0]['phone']);
@@ -108,13 +109,18 @@ function assure() {
                     document.getElementById("PersonalInformationForm").style.display = "";
                     document.getElementById("assure").style.display = "none";
                     var input_array = $(":input");
-                    for (var i = 3; i <= 5; i++) {
+                    for (var i = 3; i <= 6; i++) {
                         input_array[i].removeAttribute("readOnly");
                         input_array[i].removeAttribute("style");
                     }
                     input_array.addClass("form-control");
-                    $("#confirm").children().removeClass("form-control")
+                    document.getElementById("account").setAttribute("readOnly", "true");
+                    document.getElementById("account").style.backgroundColor = "transparent";
+                    document.getElementById("account").style.border = "none";
+                    document.getElementById("account").style.paddingBottom = "7px"
                     $("#department").removeClass("form-control");
+                    $("#account").removeClass("form-control");
+                    $("#confirm").children().removeClass("form-control")
                     $("#asspassword").removeClass("form-control");
                     $("#savepersonalinfo").removeClass("form-control");
                     closeDangerAlter();

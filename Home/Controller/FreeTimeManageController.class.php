@@ -23,17 +23,22 @@ class FreeTimeManageController extends Controller {
         $this->ajaxReturn($response,'JSON');
 
     }
+    // 查看特定助理的空闲时间
     public function getFreeTime() {
         $Model = new Model();
         $aid = I('cookie.userId');
-        $free_time_of_a_assistant = $Model->query("SELECT * FROM ams_free_time f WHERE f.aid = '$aid'");
+        $free_time_of_a_assistant = $Model->query("SELECT * FROM ams_free_time f WHERE f.aid = '$aid' ORDER BY weekday ASC");
         $free_time = array();
-        if ($free_time_of_a_assistant) {
+        if (!empty($free_time_of_a_assistant)) {
             foreach ($free_time_of_a_assistant as $key => $value) {
                 $free_time[] = $value['weekday'].$value['stime'].$value['etime'];
             }
+            $response['success'] = 1;
+            $response['free_time'] = $free_time;
+        } else {
+            $response['success'] = 0;
         }
-        $this->ajaxReturn($free_time,'JSON');
+        $this->ajaxReturn($response,'JSON');
     }
 
     // 取得所有該管理員管轄助理的空閒時間
@@ -51,7 +56,7 @@ class FreeTimeManageController extends Controller {
                 $free_time[] = $value['aid'].$value['weekday'].$value['stime'].$value['etime'];
             }
             $response['success'] = 1;
-            $response['data'] = $free_time;
+            $response['free_time'] = $free_time;
         } else {
             $response['success'] = 0;
         }

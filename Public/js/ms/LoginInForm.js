@@ -26,7 +26,7 @@ function post_data() {
     $("#signinbutton").click(function() {
         data = $("form").serializeArray();
         if (data.length < 3) {
-            alert("Input Error!!!");
+            alert("请输入所要登陆信息");
             return;
         }
         // console.log(data[2]);

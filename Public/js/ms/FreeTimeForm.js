@@ -24,27 +24,30 @@ function setfreetime() { //显示休闲时间以及修改空闲时间
         url: 'getFreeTime',
         dataType: 'JSON',
         success: function(res) {
-            // console.log(res);
-            var freetime = res;
-            for (var i = 0; i < freetime.length; i++) {
-                var tb =  document.getElementById("tb")
-                var rows = tb.rows;
-                var cell;
-                var row = parseInt(freetime[i][2]);
-                var col = parseInt(freetime[i][0]);
-                if (freetime[i][1] == 0) {
-                    cell = rows[row - 7].cells[col];
-                } else if (freetime[i][1] == 1) {
-                    cell = rows[row + 3].cells[col];
-                } else if (freetime[i][1] == 2) {
-                    cell = rows[row + 13].cells[col];
-                } else {
-                    alert("Time Format Error!!!");
+            console.log(res);
+            if (res['success'] == 1) {
+                var freetime = res['free_time'];
+                for (var i = 0; i < freetime.length; i++) {
+                    var tb =  document.getElementById("tb")
+                    var rows = tb.rows;
+                    var cell;
+                    var row = parseInt(freetime[i][2]);
+                    var col = parseInt(freetime[i][0]);
+                    if (freetime[i][1] == 0) {
+                        cell = rows[row - 7].cells[col];
+                    } else if (freetime[i][1] == 1) {
+                        cell = rows[row + 3].cells[col];
+                    } else if (freetime[i][1] == 2) {
+                        cell = rows[row + 13].cells[col];
+                    } else {
+                        alert("Time Format Error!!!");
+                    }
+                    cell.innerHTML = "free";
+                    cell.style.backgroundColor = "#F0FEFF";
+                    cell.style.fontWeight = "bold"; 
                 }
-                cell.innerHTML = "free";
-                cell.style.backgroundColor = "#F0FEFF";
-                cell.style.fontWeight = "bold"; 
             }
+            
         }, error: function(err) {
             console.log(err);
         }
@@ -98,8 +101,12 @@ function givefreetime() { //将设定好的空闲时间交互给后台
             type: 'POST',
             dataType: 'json',
             data: {'free_time': freetime_array},
-            success: function(data) {
-                console.log(data);
+            success: function(res) {
+                if (res['success'] == 1) {
+                    alert("空闲时间添加成功！");
+                } else {
+                    alert("空闲时间添加失败！");
+                }
             }, error: function(err) {
                 console.log(err);
             }

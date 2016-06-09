@@ -18,9 +18,9 @@ echo "Your user name: " $USER
 echo "The name of database: "$DATABASE
 ################################
 # Connecting mysql
-mysql -u $USER $DATABASE << EOF 2>/dev/null
+mysql -u $USER << EOF 2>/dev/null
 create database if not exists $DATABASE;
-
+use $DATABASE;
 create table if not exists ams_department (
 id tinyInt(4) not null primary key auto_increment,
 name varchar(64) not null
@@ -82,7 +82,7 @@ create table if not exists ams_check_in_out_info (
 sid int(11) not null,
 aid varchar(8) not null,
 date varchar(8) not null default '00000000',
-bias tinyInt(4) not null default 0,
+bias int(4) not null default 0,
 unique (sid, date),
 foreign key(sid) references ams_schedule(id) on delete cascade on update cascade,
 foreign key(aid) references ams_assistant(id) on delete cascade on update cascade

@@ -36,7 +36,7 @@ function DepartTable() {
                     $("#did").append("<li><input type='checkbox' name='checkbox' class='labelauty' id= '"+x+"' style='display: none'><label for='"+x+"'><span class='labelauty-unchecked-img'></span><span class='labelauty-unchecked'>"+dnames[x]+"</span><span class='labelauty-checked-img'></span><span class='labelauty-checked'>"+dnames[x]+"</span></label></li>");
                 }
             } else {
-                alert("请求失败");
+                // alert("请求失败");
             }
         }, error: function(err) {
             console.log(err);
@@ -72,7 +72,7 @@ function AdminTable() {
                     $("#ATBody").append(a.GetAdminInfo_);
                 }
             } else {
-                alert("请求失败");
+                // alert("请求失败");
             }
         }, error: function(err) {
             console.log(err);
@@ -96,8 +96,6 @@ function del_add_Depart() {
                         var id_ = "#did" + deldepartId;
                         $(id_.toString()).remove();
                         alert("删除成功！");
-                    } else if (res['success'] == 2){
-                        alert("密码错误");
                     } else {
                         alert("删除失败！");
                     }
@@ -123,7 +121,7 @@ function del_add_Depart() {
                     var did = res['did'];
 
                     var a = new DepartInfo(did, dname);
-                    $("tbody").append(a.GetDepartInfo_);
+                    $("#DTBody").append(a.GetDepartInfo_);
                     $("#did").append("<li><input type='checkbox' name='checkbox' class='labelauty' id= '"+did+"' style='display: none'><label for='"+did+"'><span class='labelauty-unchecked-img'></span><span class='labelauty-unchecked'>"+dname+"</span><span class='labelauty-checked-img'></span><span class='labelauty-checked'>"+dname+"</span></label></li>");
                     $("#dname").val("");
                     $("#password1").val("");
@@ -147,15 +145,26 @@ function del_add_Depart() {
 
 function del_add_Administrator() {
     $("#ATBody").delegate('.delbutton', 'click', function() {
-        console.log('hui!!!!!!!!!!');
         var delAId = this.value;
 
         if (confirm("确定要删除"+delAId+"吗？")) {
             //删除成功后，删除表项；
-            var id_ = "#" + delAId;
-            $(id_.toString()).remove();
+            $.ajax({
+                url: 'delManager',
+                type: 'post',
+                dataType: 'json',
+                data: {'mid': delAId},
+                success: function(res) {
+                    if (res['success'] == 1) {
+                        var id_ = "#" + delAId;
+                        $(id_.toString()).remove();
+                        alert("删除成功");
+                    } else {
+                        alert("删除失败");
+                    }
+                }
+            });
             
-            alert(delAId);
         }
 
     });
@@ -171,7 +180,7 @@ function del_add_Administrator() {
                 departments.push(obj_checkbox[i].id);
         }
         $.ajax({
-            url: '../ManagerManage/addManager',
+            url: 'addManager',
             type: 'POST',
             dataType: 'json',
             data: {'passwd': addAdministratorPword, 'mid': addAdministratorId, 'did': departments},

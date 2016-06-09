@@ -48,6 +48,7 @@ class InfoManageController extends Controller {
         }
         
         if(!empty($res_data)) {
+            $res_data['account'] = $userId;
             $response['success'] = 1;
             $response['data'] = $res_data;
         } else {

@@ -10,6 +10,7 @@ function addschedule() { //从后台接收个人排班数据并显示
     $.ajax({
         url: 'getScheduling',
         success:function(res) {
+            console.log(res);
             if(res['success'] == 1) {
                 var schedule = res['data'];
                 tbody = document.getElementById("tbo");
@@ -52,7 +53,7 @@ function addschedule() { //从后台接收个人排班数据并显示
                     var myDate = new Date();
                     var Day = myDate.getDay();
                     var work_Day = parseInt(time[0]);
-                    console.log(Day); 
+                    // console.log(Day); 
                     if (work_Day === Day ) {
                         on_work.setAttribute("class", "onwork");
                         off_work.setAttribute("class", "offwork");
@@ -114,12 +115,23 @@ function addschedule() { //从后台接收个人排班数据并显示
                         bias += 60 * (hour - offhour);
                     }
                     //把bias传给后台
-                    console.log(bias)
+                    console.log(bias);
+                    $.ajax({
+                           url: 'checkOut',
+                           type: 'POST',
+                           dataType: 'json',
+                           data: {'sid': sid, 'bias': bias},
+                           success:function(res) {
+                                console.log(res);
+                           }, error: function(err) {
+                                console.log(err);
+                           }
+                       });
                 });
             } else {
 
             }
-            console.log(res);
+            // console.log(res);
         }, error:function(err) {
             console.log(err);
         }

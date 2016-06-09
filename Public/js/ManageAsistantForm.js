@@ -30,19 +30,22 @@ function GetAssistantInfo(Assistant) {
 function AssistantsTable() {
     $.ajax({
         url: 'getAllAssistants',
-        success: function(Assistants) {
-            console.log(Assistants);
-            var dnames = Assistants['did_depart'];
-            for (var x in dnames) {
-                $("#ManageTable").append("<tbody id='did"+x+"' name='"+dnames[x]+"'></tbody>");
-                $("#addDid").append("<option value='"+x+"'>"+dnames[x]+"</option>");
-            }
-            var Assistant = Assistants['all_info'];
-            // console.log(Assistant['all_info']);
-            for (var i = 0; i < Assistant.length; i++) {
-                var a = new AssistantInfo(Assistant[i]["did"], dnames[Assistant[i]["did"]], Assistant[i]["id"],Assistant[i]["name"],Assistant[i]["phone"],Assistant[i]["email"]);
-                var tbodyid = "#did" + a.did;
-                $(tbodyid.toString()).append(a.GetAssistantInfo_);
+        success: function(res) {
+            if (res['success'] == 1) {
+                console.log(res);
+                var dnames = res['did_depart'];
+
+                for (var x in dnames) {
+                    $("#ManageTable").append("<tbody id='did"+x+"' name='"+dnames[x]+"'></tbody>");
+                    $("#addDid").append("<option value='"+x+"'>"+dnames[x]+"</option>");
+                }
+                var Assistant = res['all_info'];
+                for (var i = 0; i < Assistant.length; i++) {
+                    var a = new AssistantInfo(Assistant[i]["did"], dnames[Assistant[i]["did"]], Assistant[i]["id"],Assistant[i]["name"],Assistant[i]["phone"],Assistant[i]["email"]);
+                    var tbodyid = "#did" + a.did;
+                    $(tbodyid.toString()).append(a.GetAssistantInfo_);
+                }
+
             }
         }, error: function(err) {
             console.log(err);
